@@ -117,10 +117,64 @@ var steps = [
     },
     validate(e) {
       if (
-        entities.cb1.el.checked &&
-        entities.cb2.el.checked &&
-        entities.cb3.el.checked &&
-        entities.cb4.el.checked
+        entities.cb1.el.checked === true ||
+        entities.cb2.el.checked === true ||
+        entities.cb3.el.checked === true ||
+        entities.cb4.el.checked === true
+      ) {
+        return false;
+      }
+      entities.cindy.el.disabled = false;
+
+      if (e.target === entities.cindy.el) {
+        return true;
+      }
+
+      return false;
+    },
+  },
+  // Step 7
+  {
+    setup() {
+      entities.cindy.el.disabled = true;
+      entities.cindy.el.innerHTML = "Heeeeelp \\o/";
+
+      entities.cb1 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
+      entities.cb1.el.checked = true;
+
+      entities.cb2 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
+      entities.cb2.el.checked = true;
+
+      entities.cb3 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
+      entities.cb3.el.checked = true;
+
+      entities.cb4 = newEntity("inputCheckbox", percent({ x: 0, y: 0}));
+      entities.cb4.el.checked = true;
+
+      entities.cindy.moveTo(percent({ x: 25, y: 60 }), 180, function () {
+        s = entities.cindy.size();
+        entities.cb1.moveTo(relativeTo(entities.cindy, {x:20, y:20}), 180);
+        entities.cb2.moveTo(relativeTo(entities.cindy, {x:20, y:20}), 230);
+        entities.cb3.moveTo(relativeTo(entities.cindy, {x:20, y:20}), 170);
+        entities.cb4.moveTo(relativeTo(entities.cindy, {x:20, y:20}), 300, () => {
+          entities.cb1.moveAround(entities.cindy, 1);
+          entities.cb1.rotateAround(entities.cindy, 0);
+          entities.cb2.moveAround(entities.cindy, 1);
+          entities.cb2.rotateAround(entities.cindy, 90);
+          entities.cb3.moveAround(entities.cindy, 1);
+          entities.cb3.rotateAround(entities.cindy, 180);
+          entities.cb4.moveAround(entities.cindy, 1);
+          entities.cb4.rotateAround(entities.cindy, 270);
+        });
+
+      });
+    },
+    validate(e) {
+      if (
+        entities.cb1.el.checked === true ||
+        entities.cb2.el.checked === true ||
+        entities.cb3.el.checked === true ||
+        entities.cb4.el.checked === true
       ) {
         return false;
       }
@@ -139,7 +193,6 @@ var currentStep = 0;
 steps[currentStep].setup();
 
 function newEntity(type, pos, id = "") {
-  console.log(pos);
   switch (type) {
     case "button":
       var el = document.createElement("button");
@@ -180,7 +233,6 @@ notifyChange = function (e) {
 
 if (document.URL.startsWith("file://") && DEBUG) {
   notifyChange = function (e) {
-    console.log("new");
     currentStep++;
     steps[currentStep].setup();
   };

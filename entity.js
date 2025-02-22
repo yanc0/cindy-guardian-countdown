@@ -42,12 +42,12 @@ class Entity {
     const cos = Math.cos(radians);
     const sin = Math.sin(radians);
     const nx =
-      cos * (this.pos.x - target.pos.x) +
-      sin * (this.pos.y - target.pos.y) +
+      cos * (this.pos.x - target.center().x) +
+      sin * (this.pos.y - target.center().y) +
       target.pos.x;
     const ny =
-      cos * (this.pos.y - target.pos.y) -
-      sin * (this.pos.x - target.pos.x) +
+      cos * (this.pos.y - target.center().y) -
+      sin * (this.pos.x - target.center().x) +
       target.pos.y;
     this.setPosition({ x: nx, y: ny });
   }
@@ -56,7 +56,7 @@ class Entity {
     this.cancelAnimation();
     const startDate = performance.now();
     var lastUpdate = startDate;
-    intervalId = setInterval(() => {
+    var intervalId = setInterval(() => {
       const delta = performance.now() - lastUpdate;
       lastUpdate = performance.now();
       this.rotateAround(target, (rotationSpeed * delta) / 10);
@@ -75,6 +75,9 @@ class Entity {
 
   size() {
     return { x: this.el.clientWidth, y: this.el.clientHeight };
+  }
+  center() {
+    return { x: this.size().x / 2 + this.pos.x, y: this.size().y / 2 + this.pos.y}
   }
 }
 
