@@ -1,33 +1,30 @@
 const FPS60 = 16;
 class Entity {
-  constructor(x, y, el) {
+  constructor(pos, el) {
     this.el = el;
-    this.x = x;
-    this.y = y;
+    this.pos = pos;
+    this.el.style.left = `${pos.x}px`;
+    this.el.style.top = `${pos.y}px`;
     this.cancelAnimation = function () {};
-
-    this.el.style.left = `${x}vw`;
-    this.el.style.top = `${y}vh`;
   }
-  moveTo(x, y, dur) {
+  moveTo(pos, dur, callback = function () {}) {
     this.cancelAnimation();
     const startDate = performance.now();
-    const shouldEndDate = startDate + dur;
-    const startX = this.x;
-    const startY = this.y;
+    const startPos = this.pos;
     const interval = 1;
-    const nbIter = dur / interval;
 
     var intervalId = setInterval(() => {
       const tickDate = performance.now();
       const elapsedSince = tickDate - startDate;
 
       const moveCoef = elapsedSince / dur;
-      const distX = x - startX;
-      const distY = y - startY;
+      const distX = pos.x - startPos.x;
+      const distY = pos.y - startPos.y;
 
-      this.setX(startX + distX * moveCoef);
-      this.setY(startY + distY * moveCoef);
+      this.setPosition({
+        x: startPos.x + distX * moveCoef,
+        y: startPos.y + distY * moveCoef,
+      });
     }, interval);
 
     this.cancelAnimation = function () {
@@ -36,6 +33,7 @@ class Entity {
 
     setTimeout(() => {
       clearInterval(intervalId);
+      callback();
     }, dur);
   }
 
@@ -43,10 +41,15 @@ class Entity {
     const radians = (Math.PI / 180) * angleDeg;
     const cos = Math.cos(radians);
     const sin = Math.sin(radians);
-    const nx = cos * (this.x - target.x) + sin * (this.y - target.y) + target.x;
-    const ny = cos * (this.y - target.y) - sin * (this.x - target.x) + target.y;
-    this.setX(nx);
-    this.setY(ny);
+    const nx =
+      cos * (this.pos.x - target.pos.x) +
+      sin * (this.pos.y - target.pos.y) +
+      target.pos.x;
+    const ny =
+      cos * (this.pos.y - target.pos.y) -
+      sin * (this.pos.x - target.pos.x) +
+      target.pos.y;
+    this.setPosition({ x: nx, y: ny });
   }
 
   moveAround(target, rotationSpeed) {
@@ -64,12 +67,45 @@ class Entity {
     };
   }
 
-  setX(x) {
-    this.x = x;
-    this.el.style.left = `${this.x}vw`;
+  setPosition(pos) {
+    this.pos = pos;
+    this.el.style.left = `${this.pos.x}px`;
+    this.el.style.top = `${this.pos.y}px`;
   }
-  setY(y) {
-    this.y = y;
-    this.el.style.top = `${this.y}vh`;
+
+  size() {
+    return { x: this.el.clientWidth, y: this.el.clientHeight };
   }
+}
+
+function percent(pos) {
+  const bodyHeight = document.getElementsByTagName("body")[0].clientHeight;
+  const bodyWidth = document.getElementsByTagName("body")[0].clientWidth;
+  return { x: (pos.x * bodyWidth) / 100, y: (pos.y * bodyHeight) / 100 };
+}
+
+function relativeTo(entity, pos) {
+  return { x: entity.pos.x + pos.x, y: entity.pos.y + pos.y };
+}
+
+function topOf(entity, pos) {
+  return { x: entity.pos.x + pos.x, y: entity.pos.y + pos.y };
+}
+
+function rightOf(entity, pos) {
+  return {
+    x: entity.pos.x + entity.el.clientWidth + pos.x,
+    y: entity.pos.y + pos.y,
+  };
+}
+
+function bottomOf(entity, pos) {
+  return {
+    x: entity.pos.x + pos.x,
+    y: entity.pos.y + entity.el.clientHeight + pos.y,
+  };
+}
+
+function leftOf(entity, pos) {
+  return { x: entity.pos.x + pos.x, y: entity.pos.y + pos.y };
 }

@@ -1,4 +1,4 @@
-const DEBUG = true;
+const DEBUG = false;
 
 var entities = {
   container: document.getElementById("container"),
@@ -8,7 +8,7 @@ var steps = [
   // Step 1
   {
     setup() {
-      entities.cindy = newEntity("button", 47, 50);
+      entities.cindy = newEntity("button", percent({ x: 47, y: 50 }));
       entities.cindy.el.innerText = "Hey there ! I'm cindy :)";
     },
     validate(e) {
@@ -18,7 +18,7 @@ var steps = [
   // Step 2
   {
     setup() {
-      entities.cindy.moveTo(75, 5, 10000);
+      entities.cindy.moveTo(percent({ x: 75, y: 5 }), 10000);
       entities.cindy.el.innerText = "Please stop this...";
     },
     validate(e) {
@@ -28,7 +28,7 @@ var steps = [
   // Step 3
   {
     setup() {
-      entities.cindy.moveTo(5, 5, 1000);
+      entities.cindy.moveTo(percent({ x: 5, y: 5 }), 1000);
       entities.cindy.el.innerText = "I said stop...";
     },
     validate(e) {
@@ -38,8 +38,11 @@ var steps = [
   // Step 4
   {
     setup() {
-      entities.textGuardian = newEntity("inputText", -10, 12);
-      entities.textGuardian.moveTo(3, 12, 200);
+      entities.textGuardian = newEntity(
+        "inputText",
+        percent({ x: -10, y: 12 })
+      );
+      entities.textGuardian.moveTo(percent({ x: 3, y: 12 }), 200);
       entities.textGuardian.el.value = "don't bully my friend !";
       entities.cindy.el.disabled = true;
     },
@@ -60,12 +63,14 @@ var steps = [
   // Step 5
   {
     setup() {
+      entities.textGuardian.el.value = "   (x_x')";
       entities.textGuardian.el.disabled = true;
+
       entities.cindy.el.disabled = true;
-      entities.cindy.moveTo(59, 8, 600);
+      entities.cindy.moveTo(percent({ x: 59, y: 8 }), 600);
       entities.cindy.el.innerText = "oh checkbox, please help me !";
 
-      entities.cb1 = newEntity("inputCheckbox", 61, 13);
+      entities.cb1 = newEntity("inputCheckbox", percent({ x: 61, y: 13 }));
       entities.cb1.el.checked = true;
     },
     validate(e) {
@@ -85,27 +90,38 @@ var steps = [
   {
     setup() {
       entities.cindy.el.disabled = true;
-      entities.cindy.moveTo(56, 50, 200);
       entities.cindy.el.innerHTML = "Summoning checkboxes \\o/";
 
-      entities.cb1 = newEntity("inputCheckbox", 64, -5, "cb1");
+      entities.cb1 = newEntity("inputCheckbox", percent({ x: 64, y: -5 }));
       entities.cb1.el.checked = true;
-      entities.cb1.moveTo(64, 46, 180);
 
-      entities.cb2 = newEntity("inputCheckbox", 105, 50, "cb2");
+      entities.cb2 = newEntity("inputCheckbox", percent({ x: 105, y: 50 }));
       entities.cb2.el.checked = true;
-      entities.cb2.moveTo(75, 50, 230);
 
-      entities.cb3 = newEntity("inputCheckbox", 64, 105, "cb3");
+      entities.cb3 = newEntity("inputCheckbox", percent({ x: 64, y: 105 }));
       entities.cb3.el.checked = true;
-      entities.cb3.moveTo(64, 54, 170);
 
-      entities.cb4 = newEntity("inputCheckbox", -5, 50, "cb4");
+      entities.cb4 = newEntity("inputCheckbox", percent({ x: 5, y: 50 }));
       entities.cb4.el.checked = true;
-      entities.cb4.moveTo(52, 50, 300);
+
+      entities.cindy.moveTo(percent({ x: 56, y: 50 }), 200, function () {
+        s = entities.cindy.size;
+        entities.cb1.moveTo(topOf(entities.cindy, { x: s.x / 2, y: -45 }), 180);
+        entities.cb2.moveTo(rightOf(entities.cindy, { x: 30, y: 0 }), 230);
+        entities.cb3.moveTo(
+          bottomOf(entities.cindy, { x: s.x / 2, y: 30 }),
+          170
+        );
+        entities.cb4.moveTo(leftOf(entities.cindy, { x: -45, y: 0 }), 300);
+      });
     },
     validate(e) {
-      if (entities.cb1.el.checked && entities.cb2.el.checked && entities.cb3.el.checked && entities.cb4.el.checked) {
+      if (
+        entities.cb1.el.checked &&
+        entities.cb2.el.checked &&
+        entities.cb3.el.checked &&
+        entities.cb4.el.checked
+      ) {
         return false;
       }
       entities.cindy.el.disabled = false;
@@ -122,7 +138,8 @@ var steps = [
 var currentStep = 0;
 steps[currentStep].setup();
 
-function newEntity(type, x, y, id = "") {
+function newEntity(type, pos, id = "") {
+  console.log(pos);
   switch (type) {
     case "button":
       var el = document.createElement("button");
@@ -148,7 +165,7 @@ function newEntity(type, x, y, id = "") {
       break;
   }
 
-  var entity = new Entity(x, y, el);
+  var entity = new Entity(pos, el);
   if (id !== "") el.id = id;
   entities.container.appendChild(entity.el);
   return entity;
