@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agonies</title>
+    <style>
+      body {
+/*        display: flex;
+        align-items: center; */
+        height: 100vh;
+      }
+      #container {
+        margin: auto;
+        position: relative;
+
+      }
+      input {
+        display: block;
+        position: absolute;
+      }
+      #container * {
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <button name="cindy" id="cindy">Cindy</button>
+      <input id="guardian" text="this is an input" />
+      <input type="range" id="slider" />
+      <button clickCount="0" id="countDown">CountDown</button>
+      <input type="checkbox" id="cb1" />
+      <input type="checkbox" id="cb2" />
+      <input type="checkbox" id="cb3" />
+    </div>
+  </body>
+  <script src="entity.js"></script>
+  <script>
+
+    const container = new Entity(0, 0, document.getElementById("container"));
+    const cindy = new Entity(55, 50, document.getElementById("cindy"));
+    const guardian = new Entity(0, 0,  document.getElementById("guardian"));
+    const slider = new Entity(0, 0, document.getElementById("slider"));
+    const countDown = new Entity(0, 0, document.getElementById("countDown"));
+
+    const cb1 = new Entity(cindy.x + 10, cindy.y + 10, document.getElementById("cb1"));
+    const cb2 = new Entity(50, 50, document.getElementById("cb2"));
+    const cb3 = new Entity(0, 0, document.getElementById("cb3"));
+
+    cb1.moveAround(cindy, 0.2);
+    cindy.moveAround(cb2, 0.1)
+
+
+    // var steps = [step0, step1];
+    var steps = [
+    //   // Step 1
+    //   {
+    //     setup() {
+    //       cindy.el.innerHTML = "Don't click me";
+    //       slider.el.style.display = "none";
+    //       countDown.el.style.display = "none";
+    //     },
+    //     validate(e) {
+    //       return true;
+    //     },
+    //   },
+    //   // Step 2
+    //   {
+    //     setup() {
+    //       cindy.el.innerHTML = "Please Stop :(";
+    //       guardian.el.style.display = "block";
+    //       guardian.el.value = "Don't touch her";
+    //       cindy.el.disabled = true;
+    //     },
+    //     validate(e) {
+    //       if (!guardian.el.value === "") {
+    //         return false;
+    //       }
+    //       cindy.el.disabled = false;
+    //       guardian.el.disabled = true;
+    //       if (e.type === "click" && e.target.id === "cindy") {
+    //         return true;
+    //       }
+    //       return false;
+    //     },
+    //   },
+    //   // Step 3
+    //   {
+    //     setup() {
+    //       //   slider.style.display = "block";
+    //       countDown.el.style.display = "block";
+    //       cb1.el.checked = true;
+    //       cb2.el.checked = true;
+    //       cb3.el.checked = false;
+    //     },
+    //     validate(e) {
+    //       //   incrementAttribute(countDown, "clickCount");
+    //       //   console.log(countDown.attributes.clickCount);
+    //
+    //       switch (e.target.id) {
+    //         case "cb1": {
+    //           cbToggle(cb2);
+    //           break;
+    //         }
+    //         case "cb2": {
+    //           cbToggle(cb3);
+    //           break;
+    //         }
+    //         case "cb3": {
+    //           cbToggle(cb1);
+    //           cbToggle(cb2);
+    //           break;
+    //         }
+    //       }
+    //       if (cb1.checked && cb2.checked && cb3.checked) {
+    //         console.log("cb yayyya");
+    //         return true;
+    //       }
+    //       return false;
+    //     },
+    //   },
+    ];
+
+    // Event listeners
+    cindy.el.addEventListener("click", function (e) {
+      if (!cindy.disabled) {
+        notifyChange(e);
+      }
+    });
+    guardian.el.addEventListener("input", function (e) {
+      notifyChange(e);
+    });
+    slider.el.addEventListener("change", function (e) {
+      notifyChange(e);
+    });
+    countDown.el.addEventListener("click", function (e) {
+      notifyChange(e);
+    });
+
+    [cb1, cb2, cb3].forEach((entity) => {
+      entity.el.addEventListener("click", (e) => {
+        notifyChange(e);
+      });
+    });
+
+    // steps[0].setup();
+    var currentStep = 0;
+
+    function notifyChange(e) {
+      if (steps[currentStep].validate(e) && currentStep < steps.length - 1) {
+        currentStep++;
+        steps[currentStep].setup();
+      }
+    }
+
+    function incrementAttribute(elem, key) {
+      var a = parseInt(elem.attributes[key].value);
+      elem.attributes[key].value = a + 1;
+    }
+
+    function cbToggle(cb) {
+      cb.el.checked = !cb.el.checked;
+    }
+
+
+    // const cb1 = new Entity(60, 50, cb1);
+    // // cbx.moveTo(50, 50, 1000);
+    // const cb2 = new Entity(10, 10, document.getElementById("cb2"));
+    // const cindyObj = new Entity(50, 50, cindy);
+    // // cindyObj.moveTo(50, 80, 10000);
+    // cb2.moveAround(cindy, 10)
+
+  </script>
+</html>
