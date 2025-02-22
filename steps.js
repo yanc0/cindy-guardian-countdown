@@ -1,3 +1,5 @@
+const DEBUG = true;
+
 var entities = {
   container: document.getElementById("container"),
 };
@@ -80,8 +82,8 @@ var steps = [
   },
 ];
 
-steps[0].setup();
 var currentStep = 0;
+steps[currentStep].setup();
 
 function newEntity(type, x, y) {
   switch (type) {
@@ -114,9 +116,21 @@ function newEntity(type, x, y) {
   return entity;
 }
 
-function notifyChange(e) {
+notifyChange = function (e) {
   if (steps[currentStep].validate(e) && currentStep < steps.length - 1) {
     currentStep++;
     steps[currentStep].setup();
   }
+};
+
+if (document.URL.startsWith("file://") && DEBUG) {
+  notifyChange = function (e) {
+    console.log("new");
+    currentStep++;
+    steps[currentStep].setup();
+  };
+
+  document.getElementsByTagName("body")[0].addEventListener("click", (e) => {
+    notifyChange(e);
+  });
 }
