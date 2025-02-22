@@ -8,7 +8,7 @@ var steps = [
   // Step 1
   {
     setup() {
-      entities.cindy = newEntity("button", 50, 50);
+      entities.cindy = newEntity("button", 47, 50);
       entities.cindy.el.innerText = "Hey there ! I'm cindy :)";
     },
     validate(e) {
@@ -38,7 +38,8 @@ var steps = [
   // Step 4
   {
     setup() {
-      entities.textGuardian = newEntity("inputText", 3, 12);
+      entities.textGuardian = newEntity("inputText", -10, 12);
+      entities.textGuardian.moveTo(3, 12, 200);
       entities.textGuardian.el.value = "don't bully my friend !";
       entities.cindy.el.disabled = true;
     },
@@ -80,12 +81,48 @@ var steps = [
       return false;
     },
   },
+  // Step 6
+  {
+    setup() {
+      entities.cindy.el.disabled = true;
+      entities.cindy.moveTo(56, 50, 200);
+      entities.cindy.el.innerHTML = "Summoning checkboxes \\o/";
+
+      entities.cb1 = newEntity("inputCheckbox", 64, -5, "cb1");
+      entities.cb1.el.checked = true;
+      entities.cb1.moveTo(64, 46, 180);
+
+      entities.cb2 = newEntity("inputCheckbox", 105, 50, "cb2");
+      entities.cb2.el.checked = true;
+      entities.cb2.moveTo(75, 50, 230);
+
+      entities.cb3 = newEntity("inputCheckbox", 64, 105, "cb3");
+      entities.cb3.el.checked = true;
+      entities.cb3.moveTo(64, 54, 170);
+
+      entities.cb4 = newEntity("inputCheckbox", -5, 50, "cb4");
+      entities.cb4.el.checked = true;
+      entities.cb4.moveTo(52, 50, 300);
+    },
+    validate(e) {
+      if (entities.cb1.el.checked && entities.cb2.el.checked && entities.cb3.el.checked && entities.cb4.el.checked) {
+        return false;
+      }
+      entities.cindy.el.disabled = false;
+
+      if (e.target === entities.cindy.el) {
+        return true;
+      }
+
+      return false;
+    },
+  },
 ];
 
 var currentStep = 0;
 steps[currentStep].setup();
 
-function newEntity(type, x, y) {
+function newEntity(type, x, y, id = "") {
   switch (type) {
     case "button":
       var el = document.createElement("button");
@@ -112,6 +149,7 @@ function newEntity(type, x, y) {
   }
 
   var entity = new Entity(x, y, el);
+  if (id !== "") el.id = id;
   entities.container.appendChild(entity.el);
   return entity;
 }
