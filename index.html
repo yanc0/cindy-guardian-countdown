@@ -9,6 +9,7 @@
 /*        display: flex;
         align-items: center; */
         height: 100vh;
+        margin: 0;
       }
       #container {
         margin: auto;
@@ -39,17 +40,25 @@
   <script>
 
     const container = new Entity(0, 0, document.getElementById("container"));
-    const cindy = new Entity(55, 50, document.getElementById("cindy"));
+    const cindy = new Entity(50, 50, document.getElementById("cindy"));
     const guardian = new Entity(0, 0,  document.getElementById("guardian"));
     const slider = new Entity(0, 0, document.getElementById("slider"));
     const countDown = new Entity(0, 0, document.getElementById("countDown"));
 
-    const cb1 = new Entity(cindy.x + 10, cindy.y + 10, document.getElementById("cb1"));
-    const cb2 = new Entity(50, 50, document.getElementById("cb2"));
-    const cb3 = new Entity(0, 0, document.getElementById("cb3"));
+    const cb1 = new Entity(15 + cindy.x, cindy.y, document.getElementById("cb1"));
+    const cb2 = new Entity(15 + cindy.x, cindy.y, document.getElementById("cb2"));
+    const cb3 = new Entity(15 + cindy.x, cindy.y, document.getElementById("cb3"));
 
-    cindy.moveAround(cb2, 0.1)
-    cb1.moveAround(cindy, 0.2);
+    // cindy.moveAround(cb2, 1)
+
+    cb1.rotateAround(cindy, 120);
+    cb1.moveAround(cindy, 2);
+
+    cb2.rotateAround(cindy, 240);
+    cb2.moveAround(cindy, 2);
+
+    cb3.rotateAround(cindy, 0);
+    cb3.moveAround(cindy, 2);
 
 
     // var steps = [step0, step1];

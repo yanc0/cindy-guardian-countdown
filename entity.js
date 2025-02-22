@@ -1,3 +1,4 @@
+const FPS60 = 16
 class Entity {
     constructor(x, y, el) {
         this.el = el;
@@ -33,9 +34,7 @@ class Entity {
         }, dur);
     }
 
-    placeAround(target, angleDeg) {
-        // const angleDeg = performance.now() % 360;
-        // const angleDeg = Date.now() % 360;
+    rotateAround(target, angleDeg) {
         const radians = (Math.PI / 180) * angleDeg;
         const cos = Math.cos(radians);
         const sin = Math.sin(radians);
@@ -45,15 +44,14 @@ class Entity {
         this.setY(ny);
     }
 
-    moveAround(target, speed, startAngleDeg = 0) {
+    moveAround(target, rotationSpeed) {
         const startDate = performance.now();
+        var lastUpdate = startDate;
         setInterval(() => {
-            const totalDur = (performance.now() - startDate) / performance.now();
-            // const angleDeg = (angleOffset + performance.now()) % 360 / 100;
-            const angleDeg = totalDur % 360;
-            this.placeAround(target, angleDeg);
-            // console.log(totalDur, totalDur);
-        }, 20)
+            const delta = performance.now() - lastUpdate;
+            lastUpdate = performance.now();
+            this.rotateAround(target, rotationSpeed * delta / 10);
+        }, FPS60)
     }
 
     setX(x) {
