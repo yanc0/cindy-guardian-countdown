@@ -12,6 +12,16 @@
       #container {
         margin: auto;
         position: relative;
+        height: 100vh;
+      }
+      #missedClicks {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin: 5px;
+        font-size: 2em;
+        font-family: "Courier New", Courier, monospace;
+        user-select: none;
       }
       input {
         display: block;
@@ -21,10 +31,17 @@
         display: block;
         position: absolute;
       }
+
+      #container input[type="checkbox"] {
+        height: 2em;
+        width: 2em;
+      }
     </style>
   </head>
   <body>
-    <div id="container"></div>
+    <div id="container">
+      <div id="missedClicks">0 missed clicks</div>
+    </div>
     <script src="entity.js"></script>
     <script src="steps.js"></script>
   </body>

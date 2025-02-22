@@ -1,6 +1,22 @@
 const DEBUG = false;
 
 var entities = {};
+var missedClicks = 0;
+var uh = new Audio("uh.mp3");
+uh.load();
+
+document
+  .getElementById("container")
+  .addEventListener("click", async function (e) {
+    if (e.target.id == "container") {
+      missedClicks++;
+      document.getElementById(
+        "missedClicks"
+      ).innerText = `${missedClicks} missed clicks`;
+
+      await uh.play();
+    }
+  });
 
 var steps = [
   // Step 1
@@ -156,6 +172,18 @@ var steps = [
       entities.cb4 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
       entities.cb4.el.checked = true;
 
+      function stop(entity) {
+        return function (e) {
+          entity.cancelAnimation();
+          entity.el.disabled = true;
+        };
+      }
+
+      entities.cb1.el.addEventListener("change", stop(entities.cb1));
+      entities.cb2.el.addEventListener("change", stop(entities.cb2));
+      entities.cb3.el.addEventListener("change", stop(entities.cb3));
+      entities.cb4.el.addEventListener("change", stop(entities.cb4));
+
       entities.cindy.moveTo(percent({ x: 25, y: 60 }), 180, function () {
         s = entities.cindy.size();
         entities.cb1.moveTo(
@@ -210,15 +238,6 @@ var steps = [
       entities.cindy.el.disabled = true;
       entities.cindy.el.innerHTML = "Heeeeelp \\o/";
 
-      entities.cb1.el.disabled = true;
-      entities.cb2.el.disabled = true;
-      entities.cb3.el.disabled = true;
-      entities.cb4.el.disabled = true;
-      entities.cb1.cancelAnimation();
-      entities.cb2.cancelAnimation();
-      entities.cb3.cancelAnimation();
-      entities.cb4.cancelAnimation();
-
       entities.cb1 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
       entities.cb1.el.checked = true;
 
@@ -242,6 +261,22 @@ var steps = [
 
       entities.cb8 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
       entities.cb8.el.checked = true;
+
+      function stop(entity) {
+        return function (e) {
+          entity.cancelAnimation();
+          entity.el.disabled = true;
+        };
+      }
+
+      entities.cb1.el.addEventListener("change", stop(entities.cb1));
+      entities.cb2.el.addEventListener("change", stop(entities.cb2));
+      entities.cb3.el.addEventListener("change", stop(entities.cb3));
+      entities.cb4.el.addEventListener("change", stop(entities.cb4));
+      entities.cb5.el.addEventListener("change", stop(entities.cb5));
+      entities.cb6.el.addEventListener("change", stop(entities.cb6));
+      entities.cb7.el.addEventListener("change", stop(entities.cb7));
+      entities.cb8.el.addEventListener("change", stop(entities.cb8));
 
       entities.cindy.moveTo(percent({ x: 45, y: 48 }), 180, function () {
         s = entities.cindy.size();
