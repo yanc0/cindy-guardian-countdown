@@ -37,29 +37,45 @@ class Entity {
     }, dur);
   }
 
-  rotateAround(target, angleDeg) {
+  rotateAround(pos, angleDeg) {
     const radians = (Math.PI / 180) * angleDeg;
     const cos = Math.cos(radians);
     const sin = Math.sin(radians);
+
     const nx =
-      cos * (this.pos.x - target.center().x) +
-      sin * (this.pos.y - target.center().y) +
-      target.pos.x;
+      cos * (this.pos.x - pos.x) +
+      sin * (this.pos.y - pos.y) +
+      pos.x;
     const ny =
-      cos * (this.pos.y - target.center().y) -
-      sin * (this.pos.x - target.center().x) +
-      target.pos.y;
+      cos * (this.pos.y - pos.y) -
+      sin * (this.pos.x - pos.x) +
+      pos.y;
     this.setPosition({ x: nx, y: ny });
   }
 
-  moveAround(target, rotationSpeed) {
+  moveAround(pos, rotationSpeed) {
     this.cancelAnimation();
     const startDate = performance.now();
     var lastUpdate = startDate;
     var intervalId = setInterval(() => {
       const delta = performance.now() - lastUpdate;
       lastUpdate = performance.now();
-      this.rotateAround(target, (rotationSpeed * delta) / 10);
+      this.rotateAround(pos, (rotationSpeed * delta) / 10);
+    }, FPS60);
+
+    this.cancelAnimation = function () {
+      clearInterval(intervalId);
+    };
+  }
+
+  moveAroundEntity(entity, rotationSpeed) {
+    this.cancelAnimation();
+    const startDate = performance.now();
+    var lastUpdate = startDate;
+    var intervalId = setInterval(() => {
+      const delta = performance.now() - lastUpdate;
+      lastUpdate = performance.now();
+      this.rotateAround(entity.pos, (rotationSpeed * delta) / 10);
     }, FPS60);
 
     this.cancelAnimation = function () {
@@ -76,8 +92,12 @@ class Entity {
   size() {
     return { x: this.el.clientWidth, y: this.el.clientHeight };
   }
+
   center() {
-    return { x: this.size().x / 2 + this.pos.x, y: this.size().y / 2 + this.pos.y}
+    return {
+      x: this.size().x / 2 + this.pos.x,
+      y: this.size().y / 2 + this.pos.y,
+    };
   }
 }
 

@@ -1,8 +1,6 @@
 const DEBUG = false;
 
-var entities = {
-  container: document.getElementById("container"),
-};
+var entities = {};
 
 var steps = [
   // Step 1
@@ -92,6 +90,8 @@ var steps = [
       entities.cindy.el.disabled = true;
       entities.cindy.el.innerHTML = "Summoning checkboxes \\o/";
 
+      entities.cb1.el.disabled = true;
+
       entities.cb1 = newEntity("inputCheckbox", percent({ x: 64, y: -5 }));
       entities.cb1.el.checked = true;
 
@@ -139,6 +139,11 @@ var steps = [
       entities.cindy.el.disabled = true;
       entities.cindy.el.innerHTML = "Heeeeelp \\o/";
 
+      entities.cb1.el.disabled = true;
+      entities.cb2.el.disabled = true;
+      entities.cb3.el.disabled = true;
+      entities.cb4.el.disabled = true;
+
       entities.cb1 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
       entities.cb1.el.checked = true;
 
@@ -148,25 +153,150 @@ var steps = [
       entities.cb3 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
       entities.cb3.el.checked = true;
 
-      entities.cb4 = newEntity("inputCheckbox", percent({ x: 0, y: 0}));
+      entities.cb4 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
       entities.cb4.el.checked = true;
 
       entities.cindy.moveTo(percent({ x: 25, y: 60 }), 180, function () {
         s = entities.cindy.size();
-        entities.cb1.moveTo(relativeTo(entities.cindy, {x:20, y:20}), 180);
-        entities.cb2.moveTo(relativeTo(entities.cindy, {x:20, y:20}), 230);
-        entities.cb3.moveTo(relativeTo(entities.cindy, {x:20, y:20}), 170);
-        entities.cb4.moveTo(relativeTo(entities.cindy, {x:20, y:20}), 300, () => {
-          entities.cb1.moveAround(entities.cindy, 1);
-          entities.cb1.rotateAround(entities.cindy, 0);
-          entities.cb2.moveAround(entities.cindy, 1);
-          entities.cb2.rotateAround(entities.cindy, 90);
-          entities.cb3.moveAround(entities.cindy, 1);
-          entities.cb3.rotateAround(entities.cindy, 180);
-          entities.cb4.moveAround(entities.cindy, 1);
-          entities.cb4.rotateAround(entities.cindy, 270);
-        });
+        entities.cb1.moveTo(
+          relativeTo(entities.cindy, { x: 30 + s.x, y: 30 + s.y }),
+          180
+        );
+        entities.cb2.moveTo(
+          relativeTo(entities.cindy, { x: 30 + s.x, y: 30 + s.y }),
+          230
+        );
+        entities.cb3.moveTo(
+          relativeTo(entities.cindy, { x: 30 + s.x, y: 30 + s.y }),
+          170
+        );
+        entities.cb4.moveTo(
+          relativeTo(entities.cindy, { x: 30 + s.x, y: 30 + s.y }),
+          300,
+          () => {
+            entities.cb1.rotateAround(entities.cindy.center(), 0);
+            entities.cb1.moveAround(entities.cindy.center(), 0.5);
+            entities.cb2.rotateAround(entities.cindy.center(), 90);
+            entities.cb2.moveAround(entities.cindy.center(), 0.5);
+            entities.cb3.rotateAround(entities.cindy.center(), 180);
+            entities.cb3.moveAround(entities.cindy.center(), 0.5);
+            entities.cb4.rotateAround(entities.cindy.center(), 270);
+            entities.cb4.moveAround(entities.cindy.center(), 0.5);
+          }
+        );
+      });
+    },
+    validate(e) {
+      if (
+        entities.cb1.el.checked === true ||
+        entities.cb2.el.checked === true ||
+        entities.cb3.el.checked === true ||
+        entities.cb4.el.checked === true
+      ) {
+        return false;
+      }
+      entities.cindy.el.disabled = false;
 
+      if (e.target === entities.cindy.el) {
+        return true;
+      }
+
+      return false;
+    },
+  },
+  // Step 8
+  {
+    setup() {
+      entities.cindy.el.disabled = true;
+      entities.cindy.el.innerHTML = "Heeeeelp \\o/";
+
+      entities.cb1.el.disabled = true;
+      entities.cb2.el.disabled = true;
+      entities.cb3.el.disabled = true;
+      entities.cb4.el.disabled = true;
+      entities.cb1.cancelAnimation();
+      entities.cb2.cancelAnimation();
+      entities.cb3.cancelAnimation();
+      entities.cb4.cancelAnimation();
+
+      entities.cb1 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
+      entities.cb1.el.checked = true;
+
+      entities.cb2 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
+      entities.cb2.el.checked = true;
+
+      entities.cb3 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
+      entities.cb3.el.checked = true;
+
+      entities.cb4 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
+      entities.cb4.el.checked = true;
+
+      entities.cb5 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
+      entities.cb5.el.checked = true;
+
+      entities.cb6 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
+      entities.cb6.el.checked = true;
+
+      entities.cb7 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
+      entities.cb7.el.checked = true;
+
+      entities.cb8 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
+      entities.cb8.el.checked = true;
+
+      entities.cindy.moveTo(percent({ x: 45, y: 48 }), 180, function () {
+        s = entities.cindy.size();
+        entities.cb1.moveTo(
+          relativeTo(entities.cindy, { x: 60 + s.x, y: 60 + s.y }),
+          180
+        );
+        entities.cb2.moveTo(
+          relativeTo(entities.cindy, { x: 40 + s.x, y: 60 + s.y }),
+          230
+        );
+        entities.cb3.moveTo(
+          relativeTo(entities.cindy, { x: 100 + s.x, y: 80 + s.y }),
+          170
+        );
+        entities.cb4.moveTo(
+          relativeTo(entities.cindy, { x: 60 + s.x, y: 80 + s.y }),
+          170
+        );
+        entities.cb5.moveTo(
+          relativeTo(entities.cindy, { x: 190 + s.x, y: 80 + s.y }),
+          170
+        );
+        entities.cb6.moveTo(
+          relativeTo(entities.cindy, { x: 60 + s.x, y: 80 + s.y }),
+          170
+        );
+        entities.cb7.moveTo(
+          relativeTo(entities.cindy, { x: 60 + s.x, y: 80 + s.y }),
+          170
+        );
+        entities.cb8.moveTo(
+          relativeTo(entities.cindy, { x: 24 + s.x, y: 90 + s.y }),
+          300,
+          () => {
+            entities.cindy.moveAround(percent({ x: 50, y: 50 }), 0.3);
+
+            entities.cb1.rotateAround(entities.cindy.center(), 0);
+            entities.cb1.moveAroundEntity(entities.cindy, 0.5);
+            entities.cb2.rotateAround(entities.cindy.center(), 45);
+            entities.cb2.moveAroundEntity(entities.cindy, 0.5);
+            entities.cb3.rotateAround(entities.cindy.center(), 90);
+            entities.cb3.moveAroundEntity(entities.cindy, 0.5);
+            entities.cb4.rotateAround(entities.cindy.center(), 100);
+            entities.cb4.moveAroundEntity(entities.cindy, 0.5);
+            entities.cb5.rotateAround(entities.cindy.center(), 140);
+            entities.cb5.moveAroundEntity(entities.cindy, 0.5);
+            entities.cb6.rotateAround(entities.cindy.center(), 150);
+            entities.cb6.moveAroundEntity(entities.cindy, 0.5);
+            entities.cb7.rotateAround(entities.cindy.center(), 200);
+            entities.cb7.moveAroundEntity(entities.cindy, 0.5);
+            entities.cb8.rotateAround(entities.cindy.center(), 270);
+            entities.cb8.moveAroundEntity(entities.cindy, 0.5);
+          }
+        );
       });
     },
     validate(e) {
@@ -220,7 +350,7 @@ function newEntity(type, pos, id = "") {
 
   var entity = new Entity(pos, el);
   if (id !== "") el.id = id;
-  entities.container.appendChild(entity.el);
+  document.getElementById("container").appendChild(entity.el);
   return entity;
 }
 
