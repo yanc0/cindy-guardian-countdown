@@ -45,10 +45,14 @@ class Entity {
         this.setY(ny);
     }
 
-    moveAround(target, speed, angleOffset = 0) {
-       setInterval(() => {
-            const angleDeg = speed * (angleOffset + performance.now()) % 360 / 100;
+    moveAround(target, speed, startAngleDeg = 0) {
+        const startDate = performance.now();
+        setInterval(() => {
+            const totalDur = (performance.now() - startDate) / performance.now();
+            // const angleDeg = (angleOffset + performance.now()) % 360 / 100;
+            const angleDeg = totalDur % 360;
             this.placeAround(target, angleDeg);
+            // console.log(totalDur, totalDur);
         }, 20)
     }
 
