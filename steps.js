@@ -3,14 +3,17 @@ const DEBUG = false;
 var entities = {};
 var missedClicks = 0;
 var loveClicks = 0;
+
+entities.loveClicks = new Entity(percent({x: 1, y: 80}), document.getElementById("loveClicks"));
+entities.missedClicks = new Entity(percent({x: 1, y: 86}), document.getElementById("missedClicks"));
+
+
 document
   .getElementById("container")
   .addEventListener("click", async function (e) {
     if (e.target.id == "container") {
       missedClicks++;
-      document.getElementById(
-        "missedClicks"
-      ).innerText = `${missedClicks} missed clicks`;
+      entities.missedClicks.el.innerText = `${missedClicks} missed clicks`;
 
       showTemporaryParticles({ x: e.x - 5, y: e.y - 5 });
     }
@@ -24,9 +27,7 @@ var steps = [
       entities.cindy.el.innerText = "Hey there ! I'm cindy :)";
       entities.cindy.el.addEventListener("click", (e) => {
         loveClicks++;
-        document.getElementById(
-          "loveClicks"
-        ).innerText = `${loveClicks} love clicks`;
+        entities.loveClicks.el.innerText = `${loveClicks} love clicks`;
         showHeartParticles(entities.cindy.pos);
       });
     },
@@ -326,6 +327,8 @@ var steps = [
       // Win !!
       entities.cindy.cancelAnimation();
       entities.cindy.el.innerHTML = "I love you <3";
+
+      entities.loveClicks.moveTo(relativeTo(entities.cindy, {x:-60, y:-50}), 500)
 
       return true;
     },
