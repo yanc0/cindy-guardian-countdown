@@ -317,10 +317,10 @@ var steps = [
         }
       }
       entities.cindy.el.disabled = false;
-      entities.cindy.cancelAnimation();
 
       if (e.target === entities.cindy.el) {
         // Win !!
+        entities.cindy.cancelAnimation();
         entities.cindy.el.innerHTML = "I love you <3";
         return true;
       }
