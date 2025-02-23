@@ -12,7 +12,7 @@ document
         "missedClicks"
       ).innerText = `${missedClicks} missed clicks`;
 
-      showTemporaryParticles({x: e.x - 5, y: e.y - 5});
+      showTemporaryParticles({ x: e.x - 5, y: e.y - 5 });
     }
   });
 
@@ -22,6 +22,9 @@ var steps = [
     setup() {
       entities.cindy = newEntity("button", percent({ x: 47, y: 50 }));
       entities.cindy.el.innerText = "Hey there ! I'm cindy :)";
+      entities.cindy.el.addEventListener("click", (e) =>
+        showHeartParticles(entities.cindy.pos)
+      );
     },
     validate(e) {
       return true;
@@ -416,16 +419,43 @@ function createBlock(pos, w, h, color) {
   return block;
 }
 
+function showHeartParticles(pos) {
+  var heart = document.createElement("div");
+  heart.style.left = pos.x + 25 + "px";
+  heart.style.top = pos.y - 50 + "px";
+  heart.style.width = "10px";
+  heart.style.height = "10px";
+  heart.style.color = "#DE3163";
+  heart.style.fontSize = "3em";
+  heart.innerText = "♥";
+  document.getElementById("container").appendChild(heart);
+
+  var rand = (Math.random() - 0.5) * 10;
+
+  const spinningAnimation = [
+    { transform: `translateY(-60px) translateX(${rand}px) scale(1)` },
+  ];
+
+  const timing = {
+    duration: 400,
+    iterations: 1,
+  };
+
+  heart.animate(spinningAnimation, timing).addEventListener("finish", () => {
+    heart.remove();
+  });
+}
+
 function showTemporaryParticles(pos) {
   function rand() {
     return (Math.random() - 0.5) * 10;
   }
   var blocks = [
-    createBlock(pos, 10, 10, "red"),
-    createBlock({x: pos.x + rand(), y: pos.y + rand()}, 5, 5, "#991111"),
-    createBlock({x: pos.x + rand(), y: pos.y + rand()}, 5, 5, "#FF0022"),
-    createBlock({x: pos.x + rand(), y: pos.y + rand()}, 4, 4, "#880022")
-  ]
+    createBlock(pos, 10, 10, "#7F00FF"),
+    createBlock({ x: pos.x + rand(), y: pos.y + rand() }, 5, 5, "#7F00FF"),
+    createBlock({ x: pos.x + rand(), y: pos.y + rand() }, 5, 5, "#9F00EE"),
+    createBlock({ x: pos.x + rand(), y: pos.y + rand() }, 4, 4, "#AF00DD"),
+  ];
   const blockSpinning = [
     { transform: "rotate(0) scale(1)" },
     { transform: "rotate(360deg) scale(0)" },
@@ -436,10 +466,10 @@ function showTemporaryParticles(pos) {
     iterations: 1,
   };
 
-  blocks.forEach(block => {
-    var anim = block.animate(blockSpinning, blockTiming)
+  blocks.forEach((block) => {
+    var anim = block.animate(blockSpinning, blockTiming);
     anim.addEventListener("finish", () => {
       block.remove();
     });
-  })
+  });
 }
