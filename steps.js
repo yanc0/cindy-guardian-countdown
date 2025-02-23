@@ -23,8 +23,9 @@ var steps = [
   // Step 1
   {
     setup() {
-      entities.cindy = newEntity("button", percent({ x: 47, y: 50 }));
-      entities.cindy.el.innerText = "Hey there ! I'm cindy :)";
+      entities.cindy = newEntity("button", percent({ x: 42, y: 50 }));
+      entities.cindy.el.style.fontSize = "2em";
+      entities.cindy.el.innerText = "Hello Stranger 😏";
       entities.cindy.el.addEventListener("click", (e) => {
         loveClicks++;
         entities.loveClicks.el.innerText = `${loveClicks} love clicks`;
@@ -39,7 +40,7 @@ var steps = [
   {
     setup() {
       entities.cindy.moveTo(percent({ x: 75, y: 5 }), 10000);
-      entities.cindy.el.innerText = "Please stop this...";
+      entities.cindy.el.innerText = "Let's go for are ride 🤠";
     },
     validate(e) {
       return true;
@@ -49,7 +50,7 @@ var steps = [
   {
     setup() {
       entities.cindy.moveTo(percent({ x: 5, y: 5 }), 1000);
-      entities.cindy.el.innerText = "I said stop...";
+      entities.cindy.el.innerText = "Honey, stooop 🤭";
     },
     validate(e) {
       return true;
@@ -62,8 +63,9 @@ var steps = [
         "inputText",
         percent({ x: -10, y: 12 })
       );
-      entities.textGuardian.moveTo(percent({ x: 3, y: 12 }), 200);
-      entities.textGuardian.el.value = "don't bully my friend !";
+      entities.textGuardian.moveTo(percent({ x: 5, y: 12 }), 200);
+      entities.textGuardian.el.value = "What a hot button 🙄";
+      entities.textGuardian.el.style.fontSize = "2em";
       entities.cindy.el.disabled = true;
     },
     validate(e) {
@@ -88,9 +90,9 @@ var steps = [
 
       entities.cindy.el.disabled = true;
       entities.cindy.moveTo(percent({ x: 59, y: 8 }), 600);
-      entities.cindy.el.innerText = "oh checkbox, please help me !";
+      entities.cindy.el.innerText = "This is going too fast 😚";
 
-      entities.cb1 = newEntity("inputCheckbox", percent({ x: 61, y: 13 }));
+      entities.cb1 = newEntity("inputCheckbox", percent({ x: 72, y: 16 }));
       entities.cb1.el.checked = true;
     },
     validate(e) {
@@ -110,7 +112,7 @@ var steps = [
   {
     setup() {
       entities.cindy.el.disabled = true;
-      entities.cindy.el.innerHTML = "Summoning checkboxes \\o/";
+      entities.cindy.el.innerHTML = "Oh, no, there are so many of them 😤";
 
       entities.cb1.el.disabled = true;
 
@@ -159,7 +161,7 @@ var steps = [
   {
     setup() {
       entities.cindy.el.disabled = true;
-      entities.cindy.el.innerHTML = "Heeeeelp \\o/";
+      entities.cindy.el.innerHTML = "Help me get rid of them 🫣";
 
       entities.cb1.el.disabled = true;
       entities.cb2.el.disabled = true;
@@ -242,7 +244,7 @@ var steps = [
   {
     setup() {
       entities.cindy.el.disabled = true;
-      entities.cindy.el.innerHTML = "Heeeeelp \\o/";
+      entities.cindy.el.innerHTML = "Help me get rid of them 🫣";
 
       var cbs = [];
       for (var i = 0; i < 8; i++) {
@@ -321,14 +323,13 @@ var steps = [
           return false;
         }
       }
-      console.log("YOUWIN");
       entities.cindy.el.disabled = false;
 
       // Win !!
       entities.cindy.cancelAnimation();
-      entities.cindy.el.innerHTML = "I love you <3";
+      entities.cindy.el.innerHTML = "At last, we're together 🥰";
 
-      entities.loveClicks.moveTo(relativeTo(entities.cindy, {x:-60, y:-50}), 500)
+      entities.loveClicks.moveTo(relativeTo(entities.cindy, {x:40, y:-50}), 500)
 
       return true;
     },
