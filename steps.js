@@ -316,20 +316,18 @@ var steps = [
     },
     validate(e) {
       for (var i = 0; i < entities.cbs.length; i++) {
-        if (entities.cbs[i] === true) {
+        if (entities.cbs[i].el.checked === true) {
           return false;
         }
       }
+      console.log("YOUWIN");
       entities.cindy.el.disabled = false;
 
-      if (e.target === entities.cindy.el) {
-        // Win !!
-        entities.cindy.cancelAnimation();
-        entities.cindy.el.innerHTML = "I love you <3";
-        return true;
-      }
+      // Win !!
+      entities.cindy.cancelAnimation();
+      entities.cindy.el.innerHTML = "I love you <3";
 
-      return false;
+      return true;
     },
   },
 ];
@@ -452,12 +450,3 @@ function showTemporaryParticles(pos) {
     });
   });
 }
-
-// function drawHeart() {
-//   var block = document.createElement("div");
-//   block.style.left = "50px";
-//   block.style.
-//
-// }
-//
-// drawHeart()
