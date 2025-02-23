@@ -2,7 +2,7 @@ const DEBUG = false;
 
 var entities = {};
 var missedClicks = 0;
-
+var loveClicks = 0;
 document
   .getElementById("container")
   .addEventListener("click", async function (e) {
@@ -22,9 +22,13 @@ var steps = [
     setup() {
       entities.cindy = newEntity("button", percent({ x: 47, y: 50 }));
       entities.cindy.el.innerText = "Hey there ! I'm cindy :)";
-      entities.cindy.el.addEventListener("click", (e) =>
-        showHeartParticles(entities.cindy.pos)
-      );
+      entities.cindy.el.addEventListener("click", (e) => {
+        loveClicks++;
+        document.getElementById(
+          "loveClicks"
+        ).innerText = `${loveClicks} love clicks`;
+        showHeartParticles(entities.cindy.pos);
+      });
     },
     validate(e) {
       return true;
@@ -239,11 +243,11 @@ var steps = [
       entities.cindy.el.disabled = true;
       entities.cindy.el.innerHTML = "Heeeeelp \\o/";
 
-      var cbs = []
+      var cbs = [];
       for (var i = 0; i < 8; i++) {
         cbs[i] = newEntity("inputCheckbox");
         cbs[i].el.checked = true;
-        cbs[i].el.addEventListener("change", stop(cbs[i]))
+        cbs[i].el.addEventListener("change", stop(cbs[i]));
       }
 
       function stop(entity) {
@@ -290,19 +294,19 @@ var steps = [
             entities.cindy.moveAround(percent({ x: 50, y: 50 }), 0.3);
 
             cbs[0].rotateAround(entities.cindy.center(), 0);
-            cbs[0].moveAroundEntity(entities.cindy, 0.5);
+            cbs[0].moveAroundEntity(entities.cindy, -0.5);
             cbs[1].rotateAround(entities.cindy.center(), 45);
             cbs[1].moveAroundEntity(entities.cindy, 0.5);
             cbs[2].rotateAround(entities.cindy.center(), 90);
-            cbs[2].moveAroundEntity(entities.cindy, 0.5);
+            cbs[2].moveAroundEntity(entities.cindy, -0.5);
             cbs[3].rotateAround(entities.cindy.center(), 100);
             cbs[3].moveAroundEntity(entities.cindy, 0.5);
             cbs[4].rotateAround(entities.cindy.center(), 140);
-            cbs[4].moveAroundEntity(entities.cindy, 0.5);
+            cbs[4].moveAroundEntity(entities.cindy, -0.5);
             cbs[5].rotateAround(entities.cindy.center(), 150);
             cbs[5].moveAroundEntity(entities.cindy, 0.5);
             cbs[6].rotateAround(entities.cindy.center(), 200);
-            cbs[6].moveAroundEntity(entities.cindy, 0.5);
+            cbs[6].moveAroundEntity(entities.cindy, -0.5);
             cbs[7].rotateAround(entities.cindy.center(), 270);
             cbs[7].moveAroundEntity(entities.cindy, 0.5);
           }
@@ -333,7 +337,7 @@ var steps = [
 var currentStep = 0;
 steps[currentStep].setup();
 
-function newEntity(type, pos = {x: 0, y: 0}, id = "") {
+function newEntity(type, pos = { x: 0, y: 0 }, id = "") {
   switch (type) {
     case "button":
       var el = document.createElement("button");
