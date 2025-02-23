@@ -239,29 +239,12 @@ var steps = [
       entities.cindy.el.disabled = true;
       entities.cindy.el.innerHTML = "Heeeeelp \\o/";
 
-      entities.cb1 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
-      entities.cb1.el.checked = true;
-
-      entities.cb2 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
-      entities.cb2.el.checked = true;
-
-      entities.cb3 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
-      entities.cb3.el.checked = true;
-
-      entities.cb4 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
-      entities.cb4.el.checked = true;
-
-      entities.cb5 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
-      entities.cb5.el.checked = true;
-
-      entities.cb6 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
-      entities.cb6.el.checked = true;
-
-      entities.cb7 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
-      entities.cb7.el.checked = true;
-
-      entities.cb8 = newEntity("inputCheckbox", percent({ x: 0, y: 0 }));
-      entities.cb8.el.checked = true;
+      var cbs = []
+      for (var i = 0; i < 8; i++) {
+        cbs[i] = newEntity("inputCheckbox");
+        cbs[i].el.checked = true;
+        cbs[i].el.addEventListener("change", stop(cbs[i]))
+      }
 
       function stop(entity) {
         return function (e) {
@@ -270,83 +253,75 @@ var steps = [
         };
       }
 
-      entities.cb1.el.addEventListener("change", stop(entities.cb1));
-      entities.cb2.el.addEventListener("change", stop(entities.cb2));
-      entities.cb3.el.addEventListener("change", stop(entities.cb3));
-      entities.cb4.el.addEventListener("change", stop(entities.cb4));
-      entities.cb5.el.addEventListener("change", stop(entities.cb5));
-      entities.cb6.el.addEventListener("change", stop(entities.cb6));
-      entities.cb7.el.addEventListener("change", stop(entities.cb7));
-      entities.cb8.el.addEventListener("change", stop(entities.cb8));
-
       entities.cindy.moveTo(percent({ x: 45, y: 48 }), 180, function () {
         s = entities.cindy.size();
-        entities.cb1.moveTo(
+        cbs[0].moveTo(
           relativeTo(entities.cindy, { x: 60 + s.x, y: 60 + s.y }),
           180
         );
-        entities.cb2.moveTo(
+        cbs[1].moveTo(
           relativeTo(entities.cindy, { x: 40 + s.x, y: 60 + s.y }),
           230
         );
-        entities.cb3.moveTo(
+        cbs[2].moveTo(
           relativeTo(entities.cindy, { x: 100 + s.x, y: 80 + s.y }),
           170
         );
-        entities.cb4.moveTo(
+        cbs[3].moveTo(
           relativeTo(entities.cindy, { x: 60 + s.x, y: 80 + s.y }),
           170
         );
-        entities.cb5.moveTo(
+        cbs[4].moveTo(
           relativeTo(entities.cindy, { x: 190 + s.x, y: 80 + s.y }),
           170
         );
-        entities.cb6.moveTo(
+        cbs[5].moveTo(
           relativeTo(entities.cindy, { x: 60 + s.x, y: 80 + s.y }),
           170
         );
-        entities.cb7.moveTo(
+        cbs[6].moveTo(
           relativeTo(entities.cindy, { x: 60 + s.x, y: 80 + s.y }),
           170
         );
-        entities.cb8.moveTo(
+        cbs[7].moveTo(
           relativeTo(entities.cindy, { x: 24 + s.x, y: 90 + s.y }),
           300,
           () => {
             entities.cindy.moveAround(percent({ x: 50, y: 50 }), 0.3);
 
-            entities.cb1.rotateAround(entities.cindy.center(), 0);
-            entities.cb1.moveAroundEntity(entities.cindy, 0.5);
-            entities.cb2.rotateAround(entities.cindy.center(), 45);
-            entities.cb2.moveAroundEntity(entities.cindy, 0.5);
-            entities.cb3.rotateAround(entities.cindy.center(), 90);
-            entities.cb3.moveAroundEntity(entities.cindy, 0.5);
-            entities.cb4.rotateAround(entities.cindy.center(), 100);
-            entities.cb4.moveAroundEntity(entities.cindy, 0.5);
-            entities.cb5.rotateAround(entities.cindy.center(), 140);
-            entities.cb5.moveAroundEntity(entities.cindy, 0.5);
-            entities.cb6.rotateAround(entities.cindy.center(), 150);
-            entities.cb6.moveAroundEntity(entities.cindy, 0.5);
-            entities.cb7.rotateAround(entities.cindy.center(), 200);
-            entities.cb7.moveAroundEntity(entities.cindy, 0.5);
-            entities.cb8.rotateAround(entities.cindy.center(), 270);
-            entities.cb8.moveAroundEntity(entities.cindy, 0.5);
+            cbs[0].rotateAround(entities.cindy.center(), 0);
+            cbs[0].moveAroundEntity(entities.cindy, 0.5);
+            cbs[1].rotateAround(entities.cindy.center(), 45);
+            cbs[1].moveAroundEntity(entities.cindy, 0.5);
+            cbs[2].rotateAround(entities.cindy.center(), 90);
+            cbs[2].moveAroundEntity(entities.cindy, 0.5);
+            cbs[3].rotateAround(entities.cindy.center(), 100);
+            cbs[3].moveAroundEntity(entities.cindy, 0.5);
+            cbs[4].rotateAround(entities.cindy.center(), 140);
+            cbs[4].moveAroundEntity(entities.cindy, 0.5);
+            cbs[5].rotateAround(entities.cindy.center(), 150);
+            cbs[5].moveAroundEntity(entities.cindy, 0.5);
+            cbs[6].rotateAround(entities.cindy.center(), 200);
+            cbs[6].moveAroundEntity(entities.cindy, 0.5);
+            cbs[7].rotateAround(entities.cindy.center(), 270);
+            cbs[7].moveAroundEntity(entities.cindy, 0.5);
           }
         );
       });
+      entities.cbs = cbs;
     },
     validate(e) {
-      if (
-        entities.cb1.el.checked === true ||
-        entities.cb2.el.checked === true ||
-        entities.cb3.el.checked === true ||
-        entities.cb4.el.checked === true
-      ) {
-        return false;
+      for (var i = 0; i < entities.cbs.length; i++) {
+        if (entities.cbs[i] === true) {
+          return false;
+        }
       }
       entities.cindy.el.disabled = false;
+      entities.cindy.cancelAnimation();
 
       if (e.target === entities.cindy.el) {
+        // Win !!
+        entities.cindy.el.innerHTML = "I love you <3";
         return true;
       }
 
@@ -358,7 +333,7 @@ var steps = [
 var currentStep = 0;
 steps[currentStep].setup();
 
-function newEntity(type, pos, id = "") {
+function newEntity(type, pos = {x: 0, y: 0}, id = "") {
   switch (type) {
     case "button":
       var el = document.createElement("button");
@@ -473,3 +448,12 @@ function showTemporaryParticles(pos) {
     });
   });
 }
+
+// function drawHeart() {
+//   var block = document.createElement("div");
+//   block.style.left = "50px";
+//   block.style.
+//
+// }
+//
+// drawHeart()
