@@ -2,8 +2,6 @@ const DEBUG = false;
 
 var entities = {};
 var missedClicks = 0;
-var uh = new Audio("uh.mp3");
-uh.load();
 
 document
   .getElementById("container")
@@ -14,7 +12,7 @@ document
         "missedClicks"
       ).innerText = `${missedClicks} missed clicks`;
 
-      await uh.play();
+      showTemporaryParticles({x: e.x - 5, y: e.y - 5});
     }
   });
 
@@ -405,4 +403,43 @@ if (document.URL.startsWith("file://") && DEBUG) {
   document.getElementsByTagName("body")[0].addEventListener("click", (e) => {
     notifyChange(e);
   });
+}
+
+function createBlock(pos, w, h, color) {
+  var block = document.createElement("div");
+  block.style.left = pos.x + "px";
+  block.style.top = pos.y + "px";
+  block.style.width = w + "px";
+  block.style.height = h + "px";
+  block.style.backgroundColor = color;
+  document.getElementById("container").appendChild(block);
+  return block;
+}
+
+function showTemporaryParticles(pos) {
+  function rand() {
+    return (Math.random() - 0.5) * 10;
+  }
+  var blocks = [
+    createBlock(pos, 10, 10, "red"),
+    createBlock({x: pos.x + rand(), y: pos.y + rand()}, 5, 5, "#991111"),
+    createBlock({x: pos.x + rand(), y: pos.y + rand()}, 5, 5, "#FF0022"),
+    createBlock({x: pos.x + rand(), y: pos.y + rand()}, 4, 4, "#880022")
+  ]
+  const blockSpinning = [
+    { transform: "rotate(0) scale(1)" },
+    { transform: "rotate(360deg) scale(0)" },
+  ];
+
+  const blockTiming = {
+    duration: 400,
+    iterations: 1,
+  };
+
+  blocks.forEach(block => {
+    var anim = block.animate(blockSpinning, blockTiming)
+    anim.addEventListener("finish", () => {
+      block.remove();
+    });
+  })
 }
